@@ -15,7 +15,7 @@ public class CompletenessAnalyser {
         Iterator<String> fields = object.fieldNames();
         while (fields.hasNext()){
             String field = fields.next();
-            if (object.get(field).isNull() || object.get(field).) returnValue++;
+            if (object.get(field).isNull()) returnValue++;
         }
         return returnValue;
     }
