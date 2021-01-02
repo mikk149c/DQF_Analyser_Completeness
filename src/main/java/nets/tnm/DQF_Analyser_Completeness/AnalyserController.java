@@ -59,7 +59,7 @@ public class AnalyserController {
             }
         }
 
-        CompletableFuture.supplyAsync(() ->
+        CompletableFuture.runAsync(() ->
         restTemplate.postForObject(
                 "http://DQF-Analysis-Repo/analysis/save/message/list",
                 arrayNode,
