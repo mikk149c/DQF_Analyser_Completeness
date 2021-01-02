@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,8 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class AnalyserController {
+
+    Logger logger = LoggerFactory.getLogger(AnalyserController.class);
 
     @Autowired
     CompletenessAnalyser completenessAnalyser;
@@ -59,13 +63,16 @@ public class AnalyserController {
             }
         }
 
-        CompletableFuture.runAsync(() ->
+        CompletableFuture.runAsync(() -> SendListToRepo(arrayNode));
+
+        return arrayNode;
+    }
+
+    private void SendListToRepo(ArrayNode arrayNode) {
         restTemplate.postForObject(
                 "http://DQF-Analysis-Repo/analysis/save/message/list",
                 arrayNode,
                 JsonNode.class
-        ));
-
-        return arrayNode;
+        );
     }
 }
