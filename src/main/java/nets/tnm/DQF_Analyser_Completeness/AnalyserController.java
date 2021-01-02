@@ -50,8 +50,8 @@ public class AnalyserController {
         if (object.isArray()){
             for (final JsonNode subObject : object){
                 ObjectNode objectNode = mapper.createObjectNode();
-                objectNode.put("id", subObject.get("id"));
-                objectNode.put("group", subObject.get("group"));
+                objectNode.put("id", subObject.get("id").asInt());
+                objectNode.put("group", subObject.get("group").asText());
                 objectNode.put("message", GetMessage(subObject));
 
                 arrayNode.add(objectNode);
