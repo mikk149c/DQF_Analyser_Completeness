@@ -36,8 +36,8 @@ public class AnalyserController {
     }
 
     private String GetMessage(JsonNode object) {
-        int numberOfFields = object.size();
-        int numberOfFieldsWithNull = completenessAnalyser.getNumberOfnullValues(object.get("analysisObjectData"));
+        int numberOfFields = object.size()+1;
+        int numberOfFieldsWithNull = numberOfFields - completenessAnalyser.getNumberOfnullValues(object.get("analysisObjectData"));
         String message = "DQF_Analyser_Completeness:" + numberOfFieldsWithNull + ":" + numberOfFields;
         return message;
     }
