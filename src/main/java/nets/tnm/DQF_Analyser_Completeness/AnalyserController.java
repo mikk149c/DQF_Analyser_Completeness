@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class AnalyserController {
@@ -58,11 +59,12 @@ public class AnalyserController {
             }
         }
 
+        CompletableFuture.runAsync(() ->
         restTemplate.postForObject(
                 "http://DQF-Analysis-Repo/analysis/save/message/list",
                 arrayNode,
                 JsonNode.class
-        );
+        ));
 
         return arrayNode;
     }
