@@ -67,8 +67,6 @@ public class AnalyserController {
 
         new Thread(() -> SendListToRepo(arrayNode)).start();
 
-        SendListToRepo(arrayNode);
-
         return arrayNode;
     }
 
