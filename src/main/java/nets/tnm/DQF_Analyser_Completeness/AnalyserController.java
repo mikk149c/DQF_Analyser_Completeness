@@ -59,7 +59,7 @@ public class AnalyserController {
         }
 
         restTemplate.postForObject(
-                "http://DQF-Analysis-Repo/analysis/save/message/" + object.get("id") + "/" + object.get("group"),
+                "http://DQF-Analysis-Repo/analysis/save/message/list",
                 arrayNode,
                 JsonNode.class
         );
