@@ -65,8 +65,7 @@ public class AnalyserController {
             }
         }
 
-        CompletableFuture.supplyAsync(() ->
-                SendListToRepo(arrayNode));
+        SendListToRepo(arrayNode);
 
         return arrayNode;
     }
