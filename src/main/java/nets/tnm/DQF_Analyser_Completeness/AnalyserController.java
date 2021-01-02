@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +21,8 @@ import java.util.concurrent.CompletableFuture;
 public class AnalyserController {
 
     Logger logger = LoggerFactory.getLogger(AnalyserController.class);
+
+    List<CompletableFuture> completableFutureList = new ArrayList<>();
 
     @Autowired
     CompletenessAnalyser completenessAnalyser;
@@ -63,9 +67,14 @@ public class AnalyserController {
             }
         }
 
-        CompletableFuture.runAsync(() -> SendListToRepo(arrayNode));
+        completableFutureList.add(CompletableFuture.runAsync(() ->
+                SendListToRepo(arrayNode)).thenAccept(future -> CleanFutureList(future)));
 
         return arrayNode;
+    }
+
+    private void CleanFutureList(Void future) {
+        completableFutureList.removeIf(f -> f.isDone());
     }
 
     private void SendListToRepo(ArrayNode arrayNode) {
