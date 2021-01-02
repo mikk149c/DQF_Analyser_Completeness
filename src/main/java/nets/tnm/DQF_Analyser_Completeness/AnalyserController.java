@@ -71,11 +71,11 @@ public class AnalyserController {
     }
 
     private CompletableFuture<JsonNode> SendListToRepo(ArrayNode arrayNode) {
-        JsonNode jsonNode = restTemplate.postForObject(
+        return CompletableFuture.supplyAsync(() ->
+            restTemplate.postForObject(
                 "http://DQF-Analysis-Repo/analysis/save/message/list",
                 arrayNode,
                 JsonNode.class
-        );
-        return CompletableFuture.completedFuture(jsonNode);
+        ));
     }
 }
