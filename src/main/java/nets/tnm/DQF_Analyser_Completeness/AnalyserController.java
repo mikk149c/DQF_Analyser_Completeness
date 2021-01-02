@@ -22,8 +22,6 @@ public class AnalyserController {
 
     Logger logger = LoggerFactory.getLogger(AnalyserController.class);
 
-    List<CompletableFuture> completableFutureList = new ArrayList<>();
-
     @Autowired
     CompletenessAnalyser completenessAnalyser;
 
@@ -67,21 +65,18 @@ public class AnalyserController {
             }
         }
 
-        completableFutureList.add(CompletableFuture.runAsync(() ->
-                SendListToRepo(arrayNode)).thenAccept(future -> CleanFutureList(future)));
+        CompletableFuture.supplyAsync(() ->
+                SendListToRepo(arrayNode));
 
         return arrayNode;
     }
 
-    private void CleanFutureList(Void future) {
-        completableFutureList.removeIf(f -> f.isDone());
-    }
-
-    private void SendListToRepo(ArrayNode arrayNode) {
-        restTemplate.postForObject(
+    private JsonNode SendListToRepo(ArrayNode arrayNode) {
+        JsonNode jsonNode = restTemplate.postForObject(
                 "http://DQF-Analysis-Repo/analysis/save/message/list",
                 arrayNode,
                 JsonNode.class
         );
+        return jsonNode;
     }
 }
