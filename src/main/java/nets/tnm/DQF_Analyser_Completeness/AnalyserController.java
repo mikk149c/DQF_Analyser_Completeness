@@ -65,17 +65,17 @@ public class AnalyserController {
             }
         }
 
+        new Thread(() -> SendListToRepo(arrayNode)).start();
+
         SendListToRepo(arrayNode);
 
         return arrayNode;
     }
 
-    private CompletableFuture<JsonNode> SendListToRepo(ArrayNode arrayNode) {
-        return CompletableFuture.supplyAsync(() ->
-            restTemplate.postForObject(
+    private JsonNode SendListToRepo(ArrayNode arrayNode) {
+            return restTemplate.postForObject(
                 "http://DQF-Analysis-Repo/analysis/save/message/list",
                 arrayNode,
-                JsonNode.class
-        ));
+                JsonNode.class);
     }
 }
